@@ -32,7 +32,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      indenfication: {
+      idenfication: {
         type: DataTypes.STRING,
         allowNull: false,
       },

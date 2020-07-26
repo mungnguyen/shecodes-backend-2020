@@ -4,11 +4,12 @@ config = require('../config/config')
 jwt = require('jsonwebtoken')
 const salt = bcrypt.genSaltSync(10)
 
-const register = async function (req, res) {
+const register = (req, res) => {
+  console.log('api iss calling')
   db.user
     .findOne({
       where: {
-        identidication: req.body.identidication,
+        idenfication: req.body.idenfication,
       },
     })
     .then(function (user) {
@@ -20,17 +21,17 @@ const register = async function (req, res) {
       } else {
         db.user
           .create({
-            name: res.body.name,
+            name: req.body.name,
             password: bcrypt.hashSync(req.body.password, salt),
-            birthday: res.body.birthday,
-            sex: res.body.sex,
-            mail: res.body.mail,
-            diaChiTT: res.body.diaChiTT,
-            indenfication: res.body.identidication,
-            nation: res.body.nation,
+            birthday: req.body.birthday,
+            sex: req.body.sex,
+            mail: req.body.mail,
+            diaChiTT: req.body.diaChiTT,
+            idenfication: req.body.idenfication,
+            nation: req.body.nation,
           })
-          .then(function (account) {
-            delete account.password
+          .then(function (user) {
+            delete user.password
 
             const token = jwt.sign({ id: user.id }, config.secret, {
               expiresIn: config.time, // expires in 1 week
@@ -40,7 +41,7 @@ const register = async function (req, res) {
               success: true,
               message: 'Tao tai khoan thanh cong',
               token: token,
-              data: account,
+              data: user,
             })
           })
       }
@@ -54,7 +55,7 @@ const login = (req, res) => {
   db.user
     .findOne({
       where: {
-        identification: req.body.identidication,
+        idenfication: req.body.idenfication,
       },
     })
     .then((user) => {
@@ -151,9 +152,9 @@ const changeUserInformation = (req, res) => {
   db.user
     .update(
       {
-        mail: res.body.mail,
-        diaChiTT: res.body.diaChiTT,
-        nation: res.body.nation,
+        mail: req.body.mail,
+        diaChiTT: req.body.diaChiTT,
+        nation: req.body.nation,
       },
       {
         where: {

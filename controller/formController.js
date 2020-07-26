@@ -20,30 +20,39 @@ const getAllFormById = (req, res) => {
 }
 
 const addForm = (req, res) => {
+  console.log('aaaa', req.body.startDate)
   db.form
     .create({
       timeCreate: req.body.timeCreate,
-      stateDate: req.body.startDate,
+      startDate: req.body.startDate,
       endDate: req.body.endDate,
       diaChiThuongTru: req.body.diaChiThuongTru,
       diaChiTamTru: req.body.diaChiTamTru,
       reason: req.body.reason,
-      type: req.orther.type,
+      type: req.body.type,
+      user_id: req.user.id,
     })
     .then((result) => res.json(result))
 }
 
 const updateForm = (req, res) => {
   db.form
-    .update({
-      timeCreate: req.body.timeCreate,
-      stateDate: req.body.startDate,
-      endDate: req.body.endDate,
-      diaChiThuongTru: req.body.diaChiThuongTru,
-      diaChiTamTru: req.body.diaChiTamTru,
-      reason: req.body.reason,
-      type: req.orther.type,
-    })
+    .update(
+      {
+        timeCreate: req.body.timeCreate,
+        stateDate: req.body.startDate,
+        endDate: req.body.endDate,
+        diaChiThuongTru: req.body.diaChiThuongTru,
+        diaChiTamTru: req.body.diaChiTamTru,
+        reason: req.body.reason,
+        type: req.orther.type,
+      },
+      {
+        where: {
+          id: res.params.id,
+        },
+      }
+    )
     .then((result) => res.json(result))
 }
 

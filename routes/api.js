@@ -3,22 +3,33 @@ module.exports = function (app) {
   const user = require('../controller/userController')
   const passport = require('passport')
 
-  // Lấy tất cả info - thông tin đăng kí của ứng viên
+  // Lấy tất cả form
   app.get(
     '/api/form',
     passport.authenticate('jwt-user', { session: false }),
     form.getAllForm
   )
 
-  // Lấy thông tin đăng kí theo id
+  // Lấy form theo id
   app.get(
     '/api/form/:id',
     passport.authenticate('jwt-user', { session: false }),
     form.getAllFormById
   )
 
-  // Thêm 1 thông tin đăng kí mới, truyền các trường hôm nọ m gửi t ấy, chưa có vadidate
-  app.post('/api/form', form.addForm)
+  // Thêm 1 form
+  app.post(
+    '/api/form',
+    passport.authenticate('jwt-user', { session: false }),
+    form.addForm
+  )
+
+  // Update form
+  app.put(
+    '/api/form/:id',
+    passport.authenticate('jwt-user', { session: false }),
+    form.updateForm
+  )
 
   //Register
   app.post('/api/user/register', user.register)
